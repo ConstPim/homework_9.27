@@ -7,7 +7,6 @@ export class Answers {
     constructor() {
         this.answersTextElement = null;
         this.answers = null;
-        this.currentQuestionIndex = 1;
         this.quiz = null;
         this.routeParams = UrlManager.getQueryParams();
         this.userInfo = Auth.getUserInfo();
@@ -16,11 +15,9 @@ export class Answers {
     }
 
     async init() {
-        // const userInfo = Auth.getUserInfo();
 
         if (this.routeParams.id && this.userInfo.userId) {
             try {
-                // /api/tests/:id/result/details?userId=:userId
                 const result = await CustomHttp.request(config.host + '/tests/' + this.routeParams.id +
                     '/result/details?userId=' + this.userInfo.userId);
                 if (result) {
@@ -39,15 +36,11 @@ export class Answers {
 
 
     showAnswers() {
-        // const userResults = JSON.parse(sessionStorage.getItem('results'));
 
         // Шапка
         document.getElementById('test-name').innerText = this.quiz.name;
         const fullName = this.userInfo.fullName;
         const email = this.userInfo.email;
-        // const name = sessionStorage.getItem('name');
-        // const lastName = sessionStorage.getItem('lastName');
-        // const email = sessionStorage.getItem('email');
         document.getElementById('user').innerText = `${fullName}, ${email}`;
 
         this.answersTextElement = document.getElementById('answers-text');
@@ -69,8 +62,6 @@ export class Answers {
             const optionsElement = document.createElement('div');
             optionsElement.className = 'question-options';
 
-            // const userChoice = userResults.find(item => item.questionId === quest.id); //Ответ пользователя
-            // const rightAnswerId = this.answers[index]; //Правильный ответ
 
             // Ответы внутри текущего вопроса
             quest.answers.forEach(answer => {
@@ -99,17 +90,6 @@ export class Answers {
                         inputElement.style.border = '6px solid #DC3333';
                     }
                 }
-                // if (userChoice && userChoice.chosenAnswerId === answer.id) {
-                //     //Правильный
-                //     if (answer.id === rightAnswerId) {
-                //         labelElement.style.color = '#5FDC33';
-                //         inputElement.style.border = '6px solid #59AC49';
-                //     } //Неправильный
-                //     else if (userChoice && userChoice.chosenAnswerId === answer.id && answer.id !== rightAnswerId) {
-                //         labelElement.style.color = '#DC3333';
-                //         inputElement.style.border = '6px solid #DC3333';
-                //     }
-                // }
 
                 optionElement.appendChild(inputElement);
                 optionElement.appendChild(labelElement);
